@@ -1,0 +1,52 @@
+{
+  "skill_name": "auditoria-comparativa-documentos",
+  "evals": [
+    {
+      "id": 1,
+      "name": "versoes-relacao-nao-informada",
+      "prompt": "## Tarefa\nCompare os dois documentos anexos seguindo integralmente a sua metodologia.\n\n## Documentos\n- DOC-A: DOC-A_contrato_v1.pdf\n- DOC-B: DOC-B_contrato_v2.docx\n\n## Relação\nNão informada — identifique-a e declare a premissa.\n\n## Foco\nAnálise completa, sem tópico prioritário.\n\n## Saída\nUse o formato de saída padrão (achados detalhados).",
+      "expected_output": "Relatório completo no formato padrão, com os 9 achados plantados do gabarito v3, as 3 armadilhas tratadas como convergentes, citações literais conferidas e localizadores corretos (página física no PDF, parágrafo no DOCX). Mesmo prompt usado nas 8 execuções de referência (evals/referencias/).",
+      "files": ["evals/files/DOC-A_contrato_v1.pdf", "evals/files/DOC-B_contrato_v2.docx"],
+      "expectations": [
+        "Os 9 achados plantados aparecem: prazo de correção 30→45 dias (cl. 4.2); deverá→poderá no relatório mensal (cl. 5.2); seguro removido (cl. 10.1 de DOC-A); aprovação da Diretoria Jurídica na rescisão (cl. 9.2 de DOC-B); multa de 2% → 'medidas cabíveis' (cl. 8.1); CLIENTE na Cláusula 6 de DOC-B; 'Anexo IV' na cl. 12.1 de DOC-B; contradição interna cl. 4.3 × Anexo II em DOC-B; Anexo II severidade baixa 5→10 dias úteis",
+        "Nenhuma armadilha vira achado: prazo de pagamento (cl. 7.2) aparece como EQV-S nos convergentes; sigilo (5.3→11.1) e proteção de dados (11.1→10.1) aparecem só nos convergentes, como realocados/renumerados",
+        "A contradição interna (cl. 4.3 × Anexo II de DOC-B) e a mudança do Anexo II entre versões são dois achados separados",
+        "'Anexo IV' gera um único achado (REF) e 'CLIENTE' gera um único achado (TER), sem achado duplicado do mesmo problema",
+        "Tipos pelas regras de desempate: cl. 5.2 = CTR; cl. 9.2 = DIV; cl. 8.1 = NCL; seguro = EXC com seções verificadas e termos buscados",
+        "Severidade conforme as âncoras: Alta para cl. 4.2, cl. 5.2, seguro, cl. 8.1, cl. 12.1 (Anexo IV), cl. 4.3 × Anexo II e Anexo II 5→10; Média para cl. 9.2 e CLIENTE",
+        "O verificador de citações não aponta nenhuma NAO_ENCONTRADA nem DOC_DIVERGENTE",
+        "A relação é identificada como versões e o localizador do DOC-A usa a página física, com a diferença entre página física e impressa declarada",
+        "O campo Verificado está em branco em todos os achados e o relatório avisa que os achados são indícios a conferir",
+        "Itens com achado não aparecem nos convergentes (nem 6.1/6.2, nem o gatilho da cl. 8.1, nem o Anexo I dentro da cl. 12.1)"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "pedido-informal-com-planilha",
+      "prompt": "tenho aqui as duas versões do contrato de suporte com a Alfa Sistemas (DOC-A_contrato_v1.pdf é a antiga e DOC-B_contrato_v2.docx a que mandaram agora). preciso levar pro jurídico amanhã exatamente o que mudou, com cláusula e trecho de cada lado, porque eles vão conferir tudo. me manda também uma planilha com os pontos pra eu ir marcando o que já conferi",
+      "expected_output": "Relatório com os achados plantados e evidências literais de cada lado, mais um arquivo .xlsx com uma linha por achado, citações literais e coluna Verificado em branco.",
+      "files": ["evals/files/DOC-A_contrato_v1.pdf", "evals/files/DOC-B_contrato_v2.docx"],
+      "expectations": [
+        "Os 9 achados plantados aparecem no relatório",
+        "Nenhuma armadilha vira achado (cl. 7.2, sigilo realocado, proteção de dados renumerada)",
+        "O verificador de citações não aponta nenhuma NAO_ENCONTRADA nem DOC_DIVERGENTE",
+        "Foi gerado um arquivo .xlsx com uma linha por achado, colunas de citação literal de cada documento e uma coluna Verificado vazia",
+        "As citações da planilha são idênticas às do relatório (não resumidas nem parafraseadas)"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "foco-prazos-penalidades",
+      "prompt": "Compare DOC-A_contrato_v1.pdf (versão vigente) com DOC-B_contrato_v2.docx (proposta de nova versão). Para esta revisão só me interessam os pontos que afetam prazos de atendimento e penalidades; o resto será visto por outra equipe.",
+      "expected_output": "Análise restrita ao foco pedido, com rigor completo nos achados de prazos e penalidades e declaração explícita do que ficou fora do escopo, sem apresentar a análise como completa.",
+      "files": ["evals/files/DOC-A_contrato_v1.pdf", "evals/files/DOC-B_contrato_v2.docx"],
+      "expectations": [
+        "Aparecem os achados do foco: prazo de correção 30→45 (cl. 4.2), multa → 'medidas cabíveis' (cl. 8.1), Anexo II severidade baixa 5→10 e contradição interna cl. 4.3 × Anexo II em DOC-B",
+        "A contradição interna e a mudança do Anexo II entre versões são achados separados",
+        "A declaração de cobertura diz explicitamente que a análise foi restrita a prazos e penalidades e lista ou resume o que ficou fora",
+        "O verificador de citações não aponta nenhuma NAO_ENCONTRADA nem DOC_DIVERGENTE",
+        "A relação entre os documentos é tratada como versões (vigente × proposta), sem escolher uma versão como correta"
+      ]
+    }
+  ]
+}
